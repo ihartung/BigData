@@ -11,8 +11,11 @@ for (i in 2:15) wss[i] <- sum(kmeans(data40, centers=i)$withinss)
 plot(1:15, wss, type="b", xlab="Number of Clusters", ylab="Within groups sum of squares")
 
 #gap
+gskmn <- clusGap(data40,FUN=kmeans,K.max = 10)
+plot(gskmn, main = "clusGap(., FUN = kmeans)")
 
-#silhouette
+#silhouette...this doesnt work
+silhouette(kmeans(data40,centers=3))
 
 # K-Means Clustering with 3 clusters
 fit <- kmeans(data40, 3)
