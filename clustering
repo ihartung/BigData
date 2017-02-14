@@ -1,0 +1,25 @@
+#read in all 40 datasets
+#i'm dropping several of the rows that have really high values
+data40 <- read.csv("C:/Users/phxsu/Google Drive/495R/Var_Cor.csv",header = T)[-c(2,7,9,10,14,15,16,18,19,21,24,25,29,31,35,38,40,41),c(1,2)]
+data40 <- apply(data40,2,scale)
+plot(data40[,1],data40[,2])
+library(cluster)
+
+#elbow method
+wss <- (nrow(data40)-1)*sum(apply(data40,2,var))
+for (i in 2:15) wss[i] <- sum(kmeans(data40, centers=i)$withinss)
+plot(1:15, wss, type="b", xlab="Number of Clusters", ylab="Within groups sum of squares")
+
+#gap
+
+#silhouette
+
+# K-Means Clustering with 3 clusters
+fit <- kmeans(data40, 3)
+
+# vary parameters for most readable graph
+clusplot(data40, fit$cluster, color=TRUE, shade=TRUE, labels=2, lines=0)
+
+# Centroid Plot against 1st 2 discriminant functions
+library(fpc)
+plotcluster(data40, fit$cluster)
