@@ -1,0 +1,49 @@
+library(fivethirtyeight)
+
+#read in data. I am dropping all categorical columns for now
+cmaq1 <- read.csv("C:/Users/phxsu/Google Drive/495R/Project/CMAQ.csv")[,-3]
+credit2 <- read.csv("C:/Users/phxsu/Google Drive/495R/Project/Credit.csv")[,-c(1,8,9,10,11)]
+employee3 <- read.table("C:/Users/phxsu/Google Drive/495R/Project/Employee.txt",header=TRUE)[,-1]
+ozone4 <- read.csv("C:/Users/phxsu/Google Drive/495R/Project/Ozone.csv")[,-c(1:3)]
+bad.drivers5 <- fivethirtyeight::bad_drivers[,-1]
+drinks6 <- fivethirtyeight::drinks[,-1]
+drugs7 <- fivethirtyeight::drug_use[,-1]
+senate8 <- fivethirtyeight::senate_polls[,-1]
+mlb9 <- fivethirtyeight::mlb_as_play_talent[,-c(1:6)]
+nba10 <- fivethirtyeight::nba_draft_2015[,-c(1:4)]
+
+#put data into a list object so I can iterate through it
+data <- list()
+data[[1]] <- cmaq1
+data[[2]] <- credit2
+data[[3]] <- employee3
+data[[4]] <- ozone4
+data[[5]] <- bad.drivers5
+data[[6]] <- drinks6
+data[[7]] <- drugs7
+data[[8]] <- senate8
+data[[9]] <- mlb9
+data[[10]] <- nba10
+
+#setup results matrix
+results <- matrix(0,nrow=10,ncol=2)
+colnames(results) <- c("Variance","Correlation")
+
+#replace n/a with mean of that column
+for(i in 1:10) {
+  dat <- data[[i]]
+  for(j in 1:ncol(dat)) {
+    dat[is.na(dat[,j]),j] <- mean(dat[,j],na.rm = TRUE)
+  }
+  data[[i]] <- dat
+}
+
+#get variation. note the data is scaled
+for(i in 1:10) {
+  results[i,1] <- det(cov(scale(data[[i]])))
+}
+
+#same for correlation
+for(i in 1:10) {
+  results[i,2] <- 1/det(cor(scale(data[[i]])))
+}
