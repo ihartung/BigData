@@ -29,3 +29,29 @@ Report on what we've done
 How much do we value variation? correlation? How are we going to determine that?
 
 Hierarchical clustering
+
+### 2/15/2017
+
+### Discussion
+Is variation > correlation?
+Probably.
+
+Variance is susceptible to outliers
+
+High correlation might have mean there is high collinearity
+
+Can there be high cor and high var?
+Seems like that won't be possible
+
+Ranking: (we think)
+1. +Var, -cor
+2. -Var, -cor
+3. -Var, +cor
+
+#### Questions
+1. When two or more datasets are scored, do the scores hold relative to each other?
+
+#### Goals
+1. Upload all datasets to Github
+2. Rankings + Intuitive rankings
+3. Report draft
