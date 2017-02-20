@@ -1,0 +1,13 @@
+library(fivethirtyeight)
+
+#read in data. I am dropping all categorical columns for now
+cmaq1 <- read.csv("C:/Users/phxsu/Google Drive/495R/Project/CMAQ.csv")[,-3]
+credit2 <- read.csv("C:/Users/phxsu/Google Drive/495R/Project/Credit.csv")[,-c(1,8,9,10,11)]
+employee3 <- read.table("C:/Users/phxsu/Google Drive/495R/Project/Employee.txt",header=TRUE)[,-1]
+ozone4 <- read.csv("C:/Users/phxsu/Google Drive/495R/Project/Ozone.csv")[,-c(1:3)]
+bad.drivers5 <- fivethirtyeight::bad_drivers[,-1]
+drinks6 <- fivethirtyeight::drinks[,-1]
+drugs7 <- fivethirtyeight::drug_use[,-1]
+senate8 <- fivethirtyeight::senate_polls[,-1]
+mlb9 <- fivethirtyeight::mlb_as_play_talent[,-c(1:6)]
+nba10 <- fivethirtyeight::nba_draft_2015[,-c(1:4)]
