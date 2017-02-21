@@ -1,5 +1,60 @@
 # Meeting Logs
 
+### 2/21/2017
+
+### Meeting Notes
+problem with using the determinant - linear combinations will result in 0
+
+think of whole dataset as one random variable?
+
+maybe we should just sum the variation of each column?
+make sure to center data?
+let's center data for now (but don't normalize)
+
+communicate the idea of clustering - what is the point of clustering
+
+Intrinsic value vs Applied value
+
+for our report, document our code? process? - what packages we use, OS, ...
+
+Isn't hierarchical just the dendograms? Yes.
+Bottom-up or top-down
+
+SUM ALL VARIANCE AND COLUMNS and DIVIDE by numcol
+
+### Next Steps
+1. Switch back to sum of variations and correlations instead of the determinant -- but what if we have categorical columns? We add to numcol but the variation doesn't play a big part in the sum (0 and 1) - ask Kourosh.
+-- and how about correlation? -- negative and positive cor - use absolute values? - will that affect the issue
+2. Play with hierarchical clustering
+
+
+### 2/15/2017
+
+### Discussion
+Is variation > correlation?
+Probably.
+
+Variance is susceptible to outliers
+
+High correlation might have mean there is high collinearity
+
+Can there be high cor and high var?
+Seems like that won't be possible
+
+Ranking: (we think)
+1. +Var, -cor
+2. -Var, -cor
+3. -Var, +cor
+
+#### Questions
+1. When two or more datasets are scored, do the scores hold relative to each other?
+
+#### Goals
+1. Upload all datasets to Github
+2. Rankings + Intuitive rankings
+3. Report draft
+
+
 ### 2/14/2017
 
 #### Report
@@ -29,29 +84,3 @@ Report on what we've done
 How much do we value variation? correlation? How are we going to determine that?
 
 Hierarchical clustering
-
-### 2/15/2017
-
-### Discussion
-Is variation > correlation?
-Probably.
-
-Variance is susceptible to outliers
-
-High correlation might have mean there is high collinearity
-
-Can there be high cor and high var?
-Seems like that won't be possible
-
-Ranking: (we think)
-1. +Var, -cor
-2. -Var, -cor
-3. -Var, +cor
-
-#### Questions
-1. When two or more datasets are scored, do the scores hold relative to each other?
-
-#### Goals
-1. Upload all datasets to Github
-2. Rankings + Intuitive rankings
-3. Report draft
