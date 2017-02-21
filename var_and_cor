@@ -11,6 +11,17 @@ drugs7 <- fivethirtyeight::drug_use[,-1]
 senate8 <- fivethirtyeight::senate_polls[,-1]
 mlb9 <- fivethirtyeight::mlb_as_play_talent[,-c(1:6)]
 nba10 <- fivethirtyeight::nba_draft_2015[,-c(1:4)]
+#ish1 <-  read.csv("")
+#ish2 <-  read.csv()
+#ish3 <-  read.csv()
+#ish4 <-  read.csv()
+#ish5 <-  read.csv()
+#ish6 <-  read.csv()
+#ish7 <-  read.csv()
+#ish8 <-  read.csv()
+#ish9 <-  read.csv()
+#ish0 <-  read.csv()
+
 
 #put data into a list object so I can iterate through it
 data <- list()
@@ -23,7 +34,18 @@ data[[6]] <- drinks6
 data[[7]] <- drugs7
 data[[8]] <- senate8
 data[[9]] <- mlb9
-data[[10]] <- nba10
+#data[[10]] <- nba10
+#data[[11]] <- ish1
+#data[[12]] <- ish2
+#data[[13]] <- ish3
+#data[[14]] <- ish4
+#data[[15]] <- ish5
+#data[[16]] <- ish6
+#data[[17]] <- ish7
+#data[[18]] <- ish8
+#data[[19]] <- ish9
+#data[[20]] <- ish0
+
 
 #setup results matrix
 results <- matrix(0,nrow=10,ncol=2)
