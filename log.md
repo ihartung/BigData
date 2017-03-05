@@ -1,5 +1,24 @@
 # Meeting Logs
 
+### 3/4/2017
+
+### Meeting Notes
+Concerns with categorical data - is this more or less valuable than numerical data?
+IDs - ?
+Do we want to split up 50 states into 50 columns - levels to columns?
+Size? Could this be a meaningful metric to look at?
+Content of data? medical ? physics?
+we can create a folder for each type of dataset
+
+Focus on how to deal with categorical / mixed data
+
+
+### Next Steps
+For Tuesday
+Send Kourosh scatter plot
+and do hierarchical clustering
+
+
 ### 2/21/2017
 
 ### Meeting Notes
