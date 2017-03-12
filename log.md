@@ -1,5 +1,22 @@
 # Meeting Logs
 
+### 3/7/2017
+
+### Meeting Notes
+Validation and Testing
+
+2 major lenses
+- property of data (internal metrics)
+- physics of data? (domain knowledge)
+
+first lens - just validating using property of the data
+each cluster should be as compact as possible
+variation within cluster minimized - compactness
+distance between cluster should be maximized - separation
+this is like the silh
+
+
+
 ### 3/4/2017
 
 ### Meeting Notes
