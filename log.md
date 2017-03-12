@@ -13,9 +13,11 @@ first lens - just validating using property of the data
 each cluster should be as compact as possible
 variation within cluster minimized - compactness
 distance between cluster should be maximized - separation
-this is like the silh
+this is like the silhouette method
 
-
+### Next Steps
+Get metrics for compactness and separation using clValid library
+clean up report
 
 ### 3/4/2017
 
