@@ -28,7 +28,7 @@ isaac8 <- read.csv("https://raw.githubusercontent.com/ihartung/BigData/master/da
 isaac9 <- read.csv("https://raw.githubusercontent.com/ihartung/BigData/master/data/Isaac/manaus.csv")[,-1]
 #isaac10 <- read.csv("https://raw.githubusercontent.com/ihartung/BigData/master/data/Isaac/precip.csv")
 
-#adrian2 <- read.csv("C:/Users/Owner/Downloads/data/data/complaints.csv")
+#adrian2 <- read.csv("./complaints.csv")
 adrian3 <- read.csv("https://raw.githubusercontent.com/ihartung/BigData/master/data/Adrian/ProvincePopulation.csv")[,c(2:4)]
 adrian4 <- read.csv("https://raw.githubusercontent.com/ihartung/BigData/master/data/Adrian/SouthAfricaCrimeStats_v2.csv")[,-c(1:3)]
 adrian5 <- read.csv("https://raw.githubusercontent.com/ihartung/BigData/master/data/Adrian/alcohol.csv")[,-c(1:6,9:12,16:23)]
@@ -38,11 +38,11 @@ adrian8 <- read.csv("https://raw.githubusercontent.com/ihartung/BigData/master/d
 adrian9 <- read.csv("https://raw.githubusercontent.com/ihartung/BigData/master/data/Adrian/match.csv")[,-c(1:2,9:10)]
 adrian10 <- read.csv("https://raw.githubusercontent.com/ihartung/BigData/master/data/Adrian/youth.csv")[,-c(1,2)]
 
-rylan1 <- read.csv("C:/Users/Owner/Downloads/data/data/inpatientCharges.csv")[,c(9:12)]
+rylan1 <- read.csv("./inpatientCharges.csv")[,c(9:12)]
 rylan1[,2] <- as.numeric(sub("\\$","",rylan1[,2]))
 rylan1[,3] <- as.numeric(sub("\\$","",rylan1[,3]))
 rylan1[,4] <- as.numeric(sub("\\$","",rylan1[,4]))
-rylan2 <- read.csv("C:/Users/Owner/Downloads/data/data/Library_Usage.csv")[,c(3,4)]
+rylan2 <- read.csv("./Library_Usage.csv")[,c(3,4)]
 rylan3 <- read.csv("https://raw.githubusercontent.com/ihartung/BigData/master/data/Rylan/Iris.csv")[,c(2:5)]
 rylan4 <- read.csv("https://raw.githubusercontent.com/ihartung/BigData/master/data/Rylan/LifeCycleSavings.csv")
 rylan5 <- read.csv("https://raw.githubusercontent.com/ihartung/BigData/master/data/Rylan/QBStats_2016.csv")[,c(2:12)]
@@ -100,7 +100,7 @@ colnames(results) <- c("Variance","Correlation","Old Var","Old Cor")
 for(i in 1:n) {
   dat <- data[[i]]
   for(j in 1:ncol(dat)) {
-    dat[is.na(dat[,j]),j] <- mean(dat[,j],na.rm = TRUE)
+    dat[is.na(dat[[j]]),j] <- mean(dat[[j]],na.rm = TRUE)
   }
   data[[i]] <- dat
 }
@@ -117,7 +117,95 @@ for(i in 1:n) {
   results[i,2] <- sum(abs(cor(data[[i]]))[upper.tri(cor(data[[i]]))])*(2/(ncol(data[[i]])-1))
 }
 
+if(!require(devtools)) install.packages("devtools")
+devtools::install_github("kassambara/factoextra")
+library(ggplot2)
+library(factoextra)
+library(cluster)
+library(NbClust)
+
 results <- results[-c(11,19:21,24,25,28,32,33),]
 
-plot(results[,1],results[,2])
-plot(results[,3],results[,4])
+# Hierarchical clustering
+clusters = hclust(dist(results[,1:2]))
+plot(clusters)
+
+#=== K-means
+set.seed(123)
+km.res <- kmeans(results[,1:2], 3, nstart = 25)
+# k-means group number of each observation
+km.res$cluster
+
+km.res$cluster = as.factor(km.res$cluster)
+ggplot(data.frame(results[,1:2]), aes(Variance, Correlation, color = km.res$cluster)) + geom_point()
+
+fviz_cluster(km.res, data = scale(results[,1:2]), geom = "point",
+             stand = FALSE, ellipse.type = "norm", xlab = 'Variation', ylab = 'Correlation')
+#=== end K-means
+
+#=== Fuzzy Analysis
+res.fanny = fanny(scale(results[,1:2]), 3)
+fviz_cluster(res.fanny, ellipse.type = "norm", ellipse.level = 0.68)
+#=== end Fuzzy Analysis
+
+#=== C-means
+library(e1071)
+set.seed(123)
+df = scale(results[,1:2])
+cm <- cmeans(df, 4)
+fviz_cluster(list(data = df, cluster=cm$cluster), frame.type = "norm",
+             frame.level = 0.68)
+#=== end C-means
+
+plot(test1[,1],test1[,2], xlab='Variation', ylab='Correlation')
+plot(test1[,3],test1[,4])
+
+#=== Validation
+library('clValid')
+valid = clValid(test1[,3:4], 2:7, clMethods = c('kmeans','hierarchical','pam'), validation='internal')
+summary(valid)
+optimalScores(valid)
+plot(valid)
+#=== end Validation
+
+#=== Elbow
+set.seed(123)
+# Compute and plot wss for k = 2 to k = 15
+k.max <- 10 # Maximal number of clusters
+data <- results[,1:2]
+wss <- sapply(1:k.max, 
+              function(k){kmeans(data, k, nstart=10 )$tot.withinss})
+plot(1:k.max, wss,
+     type="b", pch = 19, frame = FALSE, 
+     xlab="Number of clusters K",
+     ylab="Total within-clusters sum of squares")
+abline(v = 3, lty =2)
+#=== end Elbow
+
+#=== Silhouette
+library(cluster)
+k.max <- 15
+data <- results[,1:2]
+sil <- rep(0, k.max)
+# Compute the average silhouette width for 
+# k = 2 to k = 15
+for(i in 2:k.max){
+  km.res <- kmeans(data, centers = i, nstart = 25)
+  ss <- silhouette(km.res$cluster, dist(data))
+  sil[i] <- mean(ss[, 3])
+}
+# Plot the  average silhouette width
+plot(1:k.max, sil, type = "b", pch = 19, 
+     frame = FALSE, xlab = "Number of clusters k")
+abline(v = which.max(sil), lty = 2)
+#=== end Silhouette
+
+#=== Gap method
+set.seed(123)
+gap_stat <- clusGap(results[,1:2], FUN = kmeans, nstart = 25,
+                    K.max = 10, B = 50)
+# Print the result
+print(gap_stat, method = "firstmax")
+plot(gap_stat, frame = FALSE, xlab = "Number of clusters k")
+abline(v = 3, lty = 2)
+#=== end Gap
